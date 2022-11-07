@@ -14,11 +14,11 @@ contract Degree {
     }
     Student private defaultStudent;
     Course private defaultCourse;
-    mapping(address => bool) public isAdmin;
+    mapping(address => bool) private isAdmin;
     mapping(address => Student) public students;
-    mapping(address => mapping(string => uint)) public courseIndex;
-    mapping(address => Course[]) public studentCourses;
-    mapping(address => Course[]) public hiddenCourses; // used for storing a student's hidden classes //MAKE SURE I CHANGE TO PRIVATE AT END
+    mapping(address => mapping(string => uint)) private courseIndex;
+    mapping(address => Course[]) private studentCourses;
+    mapping(address => Course[]) private hiddenCourses;
 
     modifier onlyRegistrar{
         require(msg.sender == registrar);
@@ -62,7 +62,7 @@ contract Degree {
         courseIndex[studentPerson][courseName] = newIndex + 1;
     }
 
-    function displayAllCourses(address studentPerson) public view returns (Course[] memory) {
+    function showAllCourses(address studentPerson) public view returns (Course[] memory) {
         return studentCourses[studentPerson];
     }
 
