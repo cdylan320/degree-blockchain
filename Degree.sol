@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.0; 
+pragma solidity ^0.8.0;
 
 contract Degree {
     address registrar;
@@ -10,18 +10,15 @@ contract Degree {
     struct Student{
         address studentPerson;
         uint hashOfDegreeDetails;
-        uint overallGPA;
         bool graduationStatus;
     }
-    struct Admin{
-        address adminPerson;
-    }
     Student private defaultStudent;
-    Admin private defaultAdmin;
-    mapping(address => Student) private students;
-    mapping(address => Admin) private admins;
-    mapping(address => mapping(string => uint)) private courseIndex;
-    mapping(address => Course[]) private studentCourses;
+    Course private defaultCourse;
+    mapping(address => bool) public isAdmin;
+    mapping(address => Student) public students;
+    mapping(address => mapping(string => uint)) public courseIndex;
+    mapping(address => Course[]) public studentCourses;
+    mapping(address => Course[]) public hiddenCourses; // used for storing a student's hidden classes //MAKE SURE I CHANGE TO PRIVATE AT END
 
     modifier onlyRegistrar{
         require(msg.sender == registrar);
@@ -34,19 +31,18 @@ contract Degree {
     }
 
     modifier onlyAdmin{
-        require(msg.sender == admins[msg.sender].adminPerson);
+        require(isAdmin[msg.sender]);
         _;
     }
 
     // constructor function
     constructor() {
         registrar = msg.sender;
+        isAdmin[msg.sender] = true;
     }
 
     function setAdmin(address adminPerson) onlyRegistrar public {
-        Admin memory temp = defaultAdmin;
-        temp.adminPerson = adminPerson;
-        admins[adminPerson] = temp;
+        isAdmin[adminPerson] = true;
     }
 
     function setStudent(address studentPerson) onlyAdmin public {
@@ -63,20 +59,39 @@ contract Degree {
         Course[] storage temp = studentCourses[studentPerson];
         uint newIndex = temp.length;
         temp.push(Course({name : courseName, gpa : courseGPA}));
-        courseIndex[studentPerson][courseName] = newIndex;
+        courseIndex[studentPerson][courseName] = newIndex + 1;
     }
 
-    function showCourses(address studentPerson) public view returns (Course[] memory) {
+    function displayAllCourses(address studentPerson) public view returns (Course[] memory) {
         return studentCourses[studentPerson];
     }
 
     function hideCourse(string memory courseName) onlyStudent public {
-        //remove the course passed in
-        //store the removed course in another data structure so it can be retrieved later
+        address studentPerson = msg.sender;
+        uint temp = courseIndex[studentPerson][courseName];
+        require(temp > 0, "Error, course doesn't exist");
+        temp = temp - 1;
+        courseIndex[studentPerson][courseName] = 0;
+        hiddenCourses[studentPerson].push(studentCourses[studentPerson][temp]);
+        studentCourses[studentPerson][temp] = defaultCourse;
     }
 
     function showCourse(string memory courseName) onlyStudent public {
-        //add course back to courses data structure from the hidden courses data structure
-        //remove it from the hidden coursess data structure
+        address studentPerson = msg.sender;
+        Course[] storage hidden = hiddenCourses[studentPerson];
+        Course[] storage shown = studentCourses[studentPerson];
+        uint index = 0;
+        while(keccak256(abi.encodePacked(hidden[index].name)) != keccak256(abi.encodePacked(courseName))) {
+            index++;
+        }
+        Course memory temp = hidden[index];
+        for(uint i = 0; i < shown.length; i++) {
+            if(keccak256(abi.encodePacked(shown[i].name)) == keccak256(abi.encodePacked(""))) {
+                shown[i] = temp;
+                courseIndex[studentPerson][courseName] = i + 1;
+                break;
+            }
+        }
+        
     }
 }
