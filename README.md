@@ -1,6 +1,6 @@
 # Blockchain-Degree
 ## Description
-This decentralized application (dApp) was designed as a way for universities to publish records of student's degrees on the blockchain for employer verification using their student wallet address.
+This decentralized application (dApp) was designed as a way for universities to publish records of student's degrees on the blockchain for employer verification using the wallet address provided by the student.
 ## Prerequisites
 Truffle/Ganache
 ## Installation
