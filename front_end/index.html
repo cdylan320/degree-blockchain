@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<!--0xd3bAe0266b268ABb8296B7FC52DC67C5aC9817560xd3bAe0266b268ABb8296B7FC52DC67C5aC981756-->
+<html>
+    <head>
+      <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+	    <script src="web3_meta.js"></script>
+      <script src="web3_contract_functions.js"></script>
+      <script src="io_functions.js"></script>
+      <script src="test.js"></script>
+      <style>
+        body{
+          background-color: rgb(119, 99, 99);
+        }
+        form{
+          border:1px dotted black;
+          display: inline-block;
+          padding: 20px;
+
+        }
+        i{
+          color:rgb(161, 9, 9);
+        }
+        .goodResponse{
+          color:rgb(12, 57, 12);
+        }
+        .badResponse{
+          color:rgb(185, 12, 12)
+        }
+        .onlyRegistar{
+          border-color: rgb(158, 6, 6);
+          color:rgb(158, 6, 6);
+        }
+        .onlyAdmin{
+          border-color: rgb(255, 179, 0);
+          color: rgb(255, 179, 0);
+        }
+        .onlyStudent{
+          border-color: rgb(77, 255, 0);
+          color: rgb(77, 255, 0);
+        }
+        .public{
+          border-color: rgb(0, 208, 255);
+          color: rgb(0, 208, 255);
+        }
+
+      </style>
+
+    </head>
+
+    <title>Degree_Contract: No User</title>
+    <body>
+      <a href="file:///C:/Users/ryans/Documents/Classes/CSE%20426%20-%20Blockchain/Project/degreeTruffle/front_end/index.html" target="_blank">New Tab</a>
+      <i><script>
+        document.write("User:"+contract.defaultAccount)
+        document.title="Degree_Contract: "+contract.defaultAccount;
+      </script></i><br>
+
+      <script>
+        
+        
+        html_input("onlyRegistar","Set_Admin",['Person_Id'])
+        html_input("onlyAdmin","Set_Course",['Student_Id','Course_Name','Grade'])
+        html_input("onlyAdmin","Set_Graduation",['Student_Id'])
+        html_input("onlyAdmin","Set_Student",['Student_Id'])
+
+        html_input("onlyStudent","Hide_Course",['Course_Name'])
+        html_input("onlyStudent","Show_Course",['Course_Name'])
+        html_input("public","Show_All_Courses",['Student_Id'])
+        html_input("public","Graduation_Status",['Student_Id'])
+        
+      </script>
+
+
+
+
+    </body>
+</html>
