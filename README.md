@@ -33,7 +33,7 @@ function setAdmin(address adminPerson) onlyRegistrar public
 Maps an address to the value true in the *isAdmin* mapping<br />
 **Parameters**<br />
 &emsp;&emsp;
-*adminPerson* An address to be mapped to true in the isAdmin mapping<br />
+*adminPerson* An address to be mapped to true in the *isAdmin* mapping<br />
 **What the function returns**<br />
 &emsp;&emsp;
 This function does not return anything
