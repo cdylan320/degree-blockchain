@@ -7,7 +7,7 @@ Truffle/Ganache
 - npm install truffle
 - open ganache(with port set to 7545 and hostname set to 127.0.0.1)
 - truffle migrate(to build and deploy)
-- acquire smart contract address from console and paste it when promted in front end variable called contract_address
+- acquire smart contract address from console and paste it when prompted in front end variable called contract_address
 - open html file
 ## License
 GPL-3.0
