@@ -9,13 +9,12 @@ contract Degree {
     }
     struct Student{
         address studentPerson;
-        uint hashOfDegreeDetails;
         bool graduationStatus;
     }
     Student private defaultStudent;
     Course private defaultCourse;
     mapping(address => bool) private isAdmin;
-    mapping(address => Student) private students;
+    mapping(address => Student) public students;
     mapping(address => mapping(string => uint)) private courseIndex;
     mapping(address => Course[]) private studentCourses;
     mapping(address => Course[]) private hiddenCourses;
