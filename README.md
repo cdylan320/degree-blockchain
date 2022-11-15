@@ -97,7 +97,7 @@ function hideCourse(string memory courseName) onlyStudent public
 &emsp;&emsp;
 Allows a student to hide a course from being displayed and moves it to the hidden courses mapping<br />
 **Parameters**<br />
-&emsp;&emsp;*courseName* The name of the course to be removed from the student courses mapping<br />
+&emsp;&emsp;*courseName* The name of the course to be moved to the hidden student courses mapping<br />
 **What the function returns**<br />
 &emsp;&emsp;
 This function does not return anything
