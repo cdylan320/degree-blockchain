@@ -43,7 +43,7 @@ function setStudent(address studentPerson) onlyAdmin public
 ```
 **Description**<br />
 &emsp;&emsp;
-Maps a student address to a course[] object<br />
+Maps a student address to a course object<br />
 **Parameters**<br />
 &emsp;&emsp;
 *studentPerson* An address to be mapped to a course[] in the students mapping<br />
