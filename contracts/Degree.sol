@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-contract Degree {
+import "./Token.sol";
+
+contract Degree is degNFT {
     address registrar;
     struct Course{
         string name;
@@ -9,6 +11,7 @@ contract Degree {
     }
     struct Student{
         address studentPerson;
+        string studentName;
         bool graduationStatus;
     }
     Student private defaultStudent;
@@ -40,13 +43,21 @@ contract Degree {
         isAdmin[msg.sender] = true;
     }
 
+    function mintDegree(address toStudentAddress, string calldata studentName) onlyAdmin public {
+        if(keccak256(abi.encodePacked(studentName)) == keccak256(abi.encodePacked(students[toStudentAddress].studentName))) {
+            uint tokenID = uint(keccak256(abi.encodePacked(toStudentAddress)));
+            super.mint(toStudentAddress, tokenID, studentName);
+        }
+    }
+
     function setAdmin(address adminPerson) onlyRegistrar public {
         isAdmin[adminPerson] = true;
     }
 
-    function setStudent(address studentPerson) onlyAdmin public {
+    function setStudent(address studentPerson, string memory studentName) onlyAdmin public {
         Student memory temp = defaultStudent;
         temp.studentPerson = studentPerson;
+        temp.studentName = studentName;
         students[studentPerson] = temp;
     }
 
@@ -90,7 +101,6 @@ contract Degree {
                 courseIndex[studentPerson][courseName] = i + 1;
                 break;
             }
-        }
-        
+        }    
     }
 }
