@@ -4,11 +4,7 @@ This decentralized application (dApp) was designed as a secure way for universit
 ## Prerequisites
 Truffle/Ganache
 ## Installation
-- npm install truffle
-- open ganache(with port set to 7545 and hostname set to 127.0.0.1)
-- truffle migrate(to build and deploy)
-- acquire smart contract address from console and paste it when prompted in front end variable called contract_address
-- open index.html file
+Go to http://34.125.18.52/
 ## License
 GPL-3.0
 ## Constructor
