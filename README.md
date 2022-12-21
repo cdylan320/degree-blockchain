@@ -4,7 +4,7 @@ This decentralized application (dApp) was designed as a secure way for universit
 ## Prerequisites
 Truffle/Ganache
 ## Installation
-Go to http://34.125.18.52/
+Download Degree.sol and Token.sol and deploy on remix.com
 ## License
 GPL-3.0
 ## Constructor
