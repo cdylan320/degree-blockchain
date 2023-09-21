@@ -1,6 +1,6 @@
 # Blockchain-Degree
 ## Description
-This decentralized application (dApp) was designed as a secure way for universities to publish records of student's degrees on the ethereum blockchain for employer verification using the wallet address provided by the student.
+This decentralized application utilizes the ethereum blockchain and was designed as a secure way for universities to publish records of student's degrees for employer verification using a wallet address.
 ## Installation
 Download Degree.sol and Token.sol and deploy both simultaneously on https://remix.ethereum.org/
 ## License
