@@ -1,6 +1,8 @@
 # Blockchain-Degree
 ## Description
 This decentralized application utilizes the ethereum blockchain and was designed as a secure way for universities to publish records of student's degrees for employer verification using a wallet address.
+![image](https://github.com/dcnorkai/Blockchain-Degree/assets/54694121/a2692a9c-2c57-4415-bc6c-80fa05a841db)
+![usecase](https://github.com/dcnorkai/Blockchain-Degree/assets/54694121/7b2dfeb0-9082-49cc-ab00-7581177223d6)
 ## Installation
 Download Degree.sol and Token.sol and deploy both simultaneously on https://remix.ethereum.org/
 ## License
