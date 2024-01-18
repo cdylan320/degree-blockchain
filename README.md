@@ -13,7 +13,7 @@ This DApp enables educational institutions to issue and manage digital degrees s
 - **Student Management:** Admins can add students to the system, associating them with their Ethereum addresses and names. The contract keeps track of each student's graduation status and courses.
 - **Course Management:** Admins can add courses for students, including the course name and associated GPA. Students can view their enrolled courses and hide or reveal specific courses as needed.
 
-### `Token.sol` Contract
+### `Token` Contract
 
 - **ERC-721 Compliance:** Adheres to ERC-721 for creating and managing NFTs.
 - **Metadata Support:** Utilizing the NFTokenMetadata contract, degNFT supports associating metadata, such as a URI, with each NFT. This allows additional information about each degree, such as details regarding the degree holder and the associated educational institution, to be stored off-chain.
