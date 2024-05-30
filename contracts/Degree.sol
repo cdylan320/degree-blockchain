@@ -37,14 +37,26 @@ contract Degree is degNFT {
         _;
     }
 
-    // constructor function
+    event CourseHidden(address student, string courseName);
+
+    //Constructor function
     constructor() {
         registrar = msg.sender;
         isAdmin[msg.sender] = true;
     }
 
+    // function mintDegree(address toStudentAddress, string calldata studentName) onlyAdmin public {
+    //     //Check if the provided studentName matches the stored studentName for the provided student address
+    //     if(keccak256(abi.encodePacked(studentName)) == keccak256(abi.encodePacked(students[toStudentAddress].studentName))) {
+    //         uint tokenID = uint(keccak256(abi.encodePacked(toStudentAddress)));
+    //         super.mint(toStudentAddress, tokenID, studentName);
+    //     }
+    // }
+
     function mintDegree(address toStudentAddress, string calldata studentName) onlyAdmin public {
-        if(keccak256(abi.encodePacked(studentName)) == keccak256(abi.encodePacked(students[toStudentAddress].studentName))) {
+        //Check if the provided studentName matches the stored studentName for the provided student address and graduation status of student is true
+        if(keccak256(abi.encodePacked(studentName)) == keccak256(abi.encodePacked(students[toStudentAddress].studentName)) 
+           && students[toStudentAddress].graduationStatus) {
             uint tokenID = uint(keccak256(abi.encodePacked(toStudentAddress)));
             super.mint(toStudentAddress, tokenID, studentName);
         }
@@ -55,6 +67,7 @@ contract Degree is degNFT {
     }
 
     function setStudent(address studentPerson, string memory studentName) onlyAdmin public {
+        //Initialize a temporary Student struct with the default student object
         Student memory temp = defaultStudent;
         temp.studentPerson = studentPerson;
         temp.studentName = studentName;
@@ -66,9 +79,16 @@ contract Degree is degNFT {
     }
 
     function setCourse(address studentPerson, string memory courseName, uint courseGPA) onlyAdmin public {
+        //Get the array of courses for the specified student
         Course[] storage temp = studentCourses[studentPerson];
+
+        //Determine the new index for the course
         uint newIndex = temp.length;
+
+        //Add the new course to the student's course array
         temp.push(Course({name : courseName, gpa : courseGPA}));
+
+        //Update the courseIndex mapping with the new index (1-based index)
         courseIndex[studentPerson][courseName] = newIndex + 1;
     }
 
@@ -77,13 +97,27 @@ contract Degree is degNFT {
     }
 
     function hideCourse(string memory courseName) onlyStudent public {
+        //Set sender as the student address
         address studentPerson = msg.sender;
-        uint temp = courseIndex[studentPerson][courseName];
-        require(temp > 0, "Error, course doesn't exist");
-        temp = temp - 1;
+
+        //Get the index of the course to be hidden from courseIndex mapping
+        uint index  = courseIndex[studentPerson][courseName];
+
+        //Verify course exists
+        require(index > 0, "Error, course doesn't exist");
+        index = index - 1;
+
+        //Mark course as hidden in the courseIndex mapping by setting it to 0
         courseIndex[studentPerson][courseName] = 0;
-        hiddenCourses[studentPerson].push(studentCourses[studentPerson][temp]);
-        studentCourses[studentPerson][temp] = defaultCourse;
+
+        //Move course to hidden list
+        hiddenCourses[studentPerson].push(studentCourses[studentPerson][index]);
+
+        //Replace the course in the studentCourses list with the defaultCourse value
+        studentCourses[studentPerson][index] = defaultCourse;
+
+        //Emit an event to indicate that the course has been hidden
+        emit CourseHidden(studentPerson, courseName);
     }
 
     function showCourse(string memory courseName) onlyStudent public {
@@ -91,16 +125,31 @@ contract Degree is degNFT {
         Course[] storage hidden = hiddenCourses[studentPerson];
         Course[] storage shown = studentCourses[studentPerson];
         uint index = 0;
-        while(keccak256(abi.encodePacked(hidden[index].name)) != keccak256(abi.encodePacked(courseName))) {
+        bool courseFound = false;
+
+        //Find the hidden course
+        while(index < hidden.length) {
+            if(keccak256(abi.encodePacked(hidden[index].name)) == keccak256(abi.encodePacked(courseName))) {
+                courseFound = true;
+                break;
+            }
             index++;
         }
+
+        require(courseFound, "Course not found in hidden courses");
+
+        //Move the course from hidden list to shown list
         Course memory temp = hidden[index];
         for(uint i = 0; i < shown.length; i++) {
             if(keccak256(abi.encodePacked(shown[i].name)) == keccak256(abi.encodePacked(""))) {
                 shown[i] = temp;
                 courseIndex[studentPerson][courseName] = i + 1;
+
+                //Remove the course from the hidden list
+                hidden[index] = hidden[hidden.length - 1];
+                hidden.pop();
                 break;
             }
-        }    
+        }
     }
 }
