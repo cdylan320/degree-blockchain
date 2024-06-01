@@ -8,6 +8,11 @@ const App = () => {
   const [accounts, setAccounts] = useState([]);
   const [degreeContract, setDegreeContract] = useState(null);
   const [nftContract, setNFTContract] = useState(null);
+  const [degreeContractAddress, setDegreeContractAddress] = useState('');
+  const [nftContractAddress, setNFTContractAddress] = useState('');
+  const [tokenId, setTokenId] = useState('');
+  const [tokenURI, setTokenURI] = useState('');
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     const init = async () => {
@@ -31,6 +36,7 @@ const App = () => {
             deployedNetwork.address,
           );
           setDegreeContract(instance);
+          setDegreeContractAddress(deployedNetwork.address);
           console.log('Degree contract instance:', instance);
         } else {
           console.error('Degree contract not deployed on this network.');
@@ -44,6 +50,7 @@ const App = () => {
             deployedNFTNetwork.address,
           );
           setNFTContract(instance);
+          setNFTContractAddress(deployedNFTNetwork.address);
           console.log('NFT contract instance:', instance);
         } else {
           console.error('NFT contract not deployed on this network.');
@@ -56,12 +63,41 @@ const App = () => {
     init();
   }, []);
 
+  const mintNFT = async () => {
+    try {
+      setStatus('Minting NFT...');
+      console.log(`Minting NFT with tokenId: ${tokenId} and tokenURI: ${tokenURI}`);
+      await nftContract.methods.mint(accounts[0], tokenId, tokenURI).send({ from: accounts[0] });
+      setStatus('NFT minted successfully!');
+      console.log('NFT minted successfully!');
+    } catch (error) {
+      console.error('Error minting NFT:', error);
+      setStatus(`Error minting NFT: ${error.message}`);
+    }
+  };
+
   return (
     <div>
       <h1>Blockchain Degree DApp</h1>
       <p>Connected Account: {accounts[0]}</p>
-      
-      {/* Add more UI elements to interact with the contracts */}
+      <p>Degree Contract Address: {degreeContractAddress}</p>
+      <p>NFT Contract Address: {nftContractAddress}</p>
+
+      <h2>Mint New NFT</h2>
+      <input
+        type="text"
+        placeholder="Token ID"
+        value={tokenId}
+        onChange={(e) => setTokenId(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Token URI"
+        value={tokenURI}
+        onChange={(e) => setTokenURI(e.target.value)}
+      />
+      <button onClick={mintNFT}>Mint NFT</button>
+      <p>{status}</p>
     </div>
   );
 };

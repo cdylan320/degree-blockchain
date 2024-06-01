@@ -26,12 +26,12 @@ This DApp enables educational institutions to issue and manage digital degrees s
 3. Students and admins interact with the DApp to manage courses and graduation status.
 
 ### Use Case Diagram
+
 ![image](https://github.com/dcnorkai/Blockchain-Degree/assets/54694121/2081ad56-fc69-491b-bf2b-bb12f37f0285)
 
 ## Getting Started
 
-1. Deploy `Degree.sol` and `Token.sol` on Ethereum.
-2. Interact with the DApp using an Ethereum wallet or DApp browser.
+1. Deploy `Degree.sol` and `Token.sol` with Remix IDE.
 
 ## Dependencies
 
