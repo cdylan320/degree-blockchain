@@ -1,0 +1,22 @@
+{
+  "name": "blockchain-degree",
+  "version": "1.0.0",
+  "description": "This DApp enables educational institutions to issue and manage digital degrees securely on the Ethereum blockchain as non-fungible tokens (NFTs). The DApp consists of two smart contracts: `Degree.sol` and `Token.sol`.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ganache-cli": "^6.12.2",
+    "truffle": "^5.11.5"
+  },
+  "dependencies": {
+    "web3": "^4.9.0"
+  }
+}
